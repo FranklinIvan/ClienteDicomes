@@ -100,7 +100,7 @@ require('../views/sections/superior.php');
         <div class="modal-body">
 
           <div class="form-group">
-            <label> <span class="font-weight-bold">De:</span> <?php echo $correo; ?> </label>
+            <label> <span class="font-weight-bold">De:</span> Fial </label>
           </div>
           <div class="form-group">
             <label class="font-weight-bold">Fecha:</label>
