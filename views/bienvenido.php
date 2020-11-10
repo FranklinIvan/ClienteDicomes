@@ -103,7 +103,7 @@ require('../views/sections/superior.php');
             <label> <span class="font-weight-bold">De:</span> Fial </label>
           </div>
           <div class="form-group">
-            <label class="font-weight-bold">Fecha:</label>
+            <label class="font-weight-bold">Fecha del Evento:</label>
             <input type="date" class="form-control font-italic" name="fecha" placeholder="fecha..." required>
           </div>
           <div class="form-group">
@@ -111,14 +111,49 @@ require('../views/sections/superior.php');
             <input type="text" class="form-control font-italic" name="ubicacion" placeholder="ubicación..." required>
           </div>
           <div class="form-group">
+            <label> <span class="font-weight-bold">Hora Inicio:</span></label>
+            <input type="time" class="form-control font-italic" name="horaInicio" placeholder="hora inicial..." required>
+          </div>
+          <div class="form-group">
+            <label> <span class="font-weight-bold">Hora Final:</span></label>
+            <input type="time" class="form-control font-italic" name="horaFinal" placeholder="hora final..." required>
+          </div>
+          <div class="form-group">
+            <label> <span class="font-weight-bold">Tipo de Servicio:</span></label>
+            <div class="input-group mb-3">
+              <select class="custom-select">
+                <!-- <option selected>Escoger...</option> -->
+                <option name="graduacion">Graduación</option>
+                <option name="congreso">Congreso</option>
+                <option name="seminario">Seminario</option>
+                <option name="presentacion">Presentación</option>
+                <option name="evento">Evento</option>
+                <option name="otro">Otro</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label> <span class="font-weight-bold">Tipo de evento:</span></label>
+            <div class="input-group mb-3">
+              <select class="custom-select">
+                <option name="publico">Público</option>
+                <option name="privado">Privado</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label> <span class="font-weight-bold">Cantidad de personas:</span></label>
+            <input type="number" min="1" class="form-control font-italic" name="cantidadPersonas" placeholder="cantidad..." required>
+          </div>
+          <div class="form-group">
             <label class="font-weight-bold">Descripción:</label><br>
-            <textarea name="descripcion" id="" cols="57" rows=8></textarea>
+            <textarea name="descripcion" id="" cols="57" rows=5></textarea>
           </div>
 
         </div>
 
         <div class="modal-footer">
-        <button class="btn text-white" style="background-color: #0f9bd0;">Enviar</button>
+          <button class="btn text-white" style="background-color: #0f9bd0;">Enviar</button>
           <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cerrar</button>
         </div>
       </div>
