@@ -13,20 +13,20 @@ require('../views/sections/superior.php');
   <br>
 
   <?php if (isset($_GET['solicitudEnviada'])) { ?>
-        <div class="alert alert-success alert-dismissible fade show">
-            <h5>Tus datos han sido procesados correctamente</h5>
-            <small>Ahora debes esperar la confirmación de tu evento por parte de DICOMES.</small>
-            <button type="button" class="close" data-dismiss="alert"><span>&times;</span>
-            </button>
-        </div>
-    <?php } else if (isset($_GET['error'])) { ?>
-        <div class="alert alert-danger alert-dismissible fade show">
-            <span>¡Ups, ha ocurrido un error!</span>
-            <button type="button" class="close" data-dismiss="alert"><span>&times;</span>
-            </button>
-        </div>
-    <?php } ?>
-    <!-- End Message -->
+    <div class="alert alert-success alert-dismissible fade show">
+      <h5>Tus datos han sido procesados correctamente</h5>
+      <small>Ahora debes esperar la confirmación de tu evento por parte de DICOMES.</small>
+      <button type="button" class="close" data-dismiss="alert"><span>&times;</span>
+      </button>
+    </div>
+  <?php } else if (isset($_GET['error'])) { ?>
+    <div class="alert alert-danger alert-dismissible fade show">
+      <span>¡Ups, ha ocurrido un error!</span>
+      <button type="button" class="close" data-dismiss="alert"><span>&times;</span>
+      </button>
+    </div>
+  <?php } ?>
+  <!-- End Message -->
 
   <!-- Calendar -->
 
@@ -49,51 +49,57 @@ require('../views/sections/superior.php');
           $('#fecha').val(info.dateStr);
           $('#dayModal').modal();
           //console.log(info);
-          calendar.addEvent({
+          /* calendar.addEvent({
             title: "Evento x",
             date: info.dateStr
-          });
-
-          /* alert('Date: ' + info.dateStr);
-          alert('Resource ID: ' + info.resource.id); */
+          }); */
         },
-
+        // Mostrar datos al seleccionar evento
         eventClick: function(info) {
-          //console.log(info);
-          console.log(info.event.title);
-          console.log(info.event.start);
-
-          console.log(info.event.end);
-          console.log(info.event.backgroundColor);
-          console.log(info.event.extendedProps.description);
+          $('#tituloEvento').html(info.event.title);
+          $('#fechaEvento').html(info.event.start);
+          $('#ubicacionEvento').html(info.event.extendedProps.ubicacion);
+          $('#horaIniEvento').html(info.event.extendedProps.hora_inicio);
+          $('#horaFinEvento').html(info.event.extendedProps.hora_final);
+          $('#tipoServEvento').html(info.event.extendedProps.tipo_servicio);
+          $('#tipoEvenEvento').html(info.event.extendedProps.tipo_evento);
+          $('#cantidadPerEvento').html(info.event.extendedProps.hora_final);
+          $('#tituloEventoDes').html(info.event.title);
+          $('#descripcionEvento').html(info.event.extendedProps.description);
+          $('#eventsModal').modal();
         },
 
-        events: [{
-            title: 'Jornada extensa',
+        /* events: [{
+            title: 'Cómo me gustaba Mayuri loco',
             start: '2020-11-07',
             end: '2020-11-10',
             color: '#eb164b',
-            description: 'Descripción del evento 1 mi loco'
+            description: 'Descripción del evento 1 mi loco',
           },
           {
-            title: 'Repetir evento',
-            start: '2020-11-09T16:00:00',
-            description: 'Descripción del evento 1 mi loco'
-          },
-          {
-            title: 'Repetir evento',
-            start: '2020-11-11T16:00:00',
+            title: 'Congreso Electoral',
+            start: '2020-11-20T16:00:00',
             description: 'Descripción del evento 2 mi loco'
+          },
+          {
+            title: 'Evento x',
+            start: '2020-11-11T16:00:00',
+            description: 'Descripción del evento 3 mi loco'
           },
           {
             title: 'Todo el día loco',
             start: '2020-11-30',
             color: '#16eb3a',
-            description: 'Descripción del evento 3 mi loco'
+            description: 'Descripción del evento 4 mi loco'
           }
-        ],
+        ], */
+        
+        events: '../admin/calendar/eventos.php',
+        eventColor: '#eb164b'
 
-        initialView: 'dayGridMonth'
+
+
+        //initialView: 'dayGridMonth'
         // End of Custom
       });
       calendar.setOption('locale', 'es');
@@ -145,13 +151,13 @@ require('../views/sections/superior.php');
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Agendar</h5>
+          <h5 class="modal-title" id="dayModal">Agendar</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
 
-        <form action="../admin/procesarServicio.php" method="post">
+        <form action="../admin/calendar/procesarServicio.php" method="post">
 
           <div class="modal-body">
 
@@ -222,7 +228,70 @@ require('../views/sections/superior.php');
       </div>
     </div>
   </div>
-  <!-- End Day Modal -->
+
+
+  <!-- Events Modal -->
+  <div class="modal fade" id="eventsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="tituloEvento"></h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div class="modal-body">
+
+          <div class="form-group">
+            <label> <span class="font-weight-bold">De:</span> Fial</label>
+          </div>
+          <div class="form-group">
+            <label class="font-weight-bold">Fecha:</label>
+            <label id="fechaEvento"></label>
+          </div>
+          <div class="form-group">
+            <label class="font-weight-bold">Ubicación:</label>
+            <label id="ubicacionEvento"></label>
+          </div>
+          <div class="form-group">
+            <label class="font-weight-bold">Hora Inicio:</label>
+            <label id="horaIniEvento"></label>
+          </div>
+          <div class="form-group">
+            <label class="font-weight-bold">Hora Final:</label>
+            <label id="horaFinEvento"></label>
+          </div>
+          <div class="form-group">
+            <label class="font-weight-bold">Tipo de Servicio:</label>
+            <label id="tipoServEvento"></label>
+          </div>
+          <div class="form-group">
+            <label class="font-weight-bold">Tipo de Evento:</label>
+            <label id="tipoEvenEvento"></label>
+          </div>
+          <div class="form-group">
+            <label class="font-weight-bold">Cantidad de Personas:</label>
+            <label id="cantidadPerEvento"></label>
+          </div>
+          <div class="form-group">
+            <label class="font-weight-bold">Título: </label>
+            <label id="tituloEventoDes"></label>
+          </div>
+          <div class="form-group">
+            <label class="font-weight-bold">Descripción: </label>
+            <label id="descripcionEvento"></label>
+          </div>
+
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cerrar</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
 
   <!-- End Calendar -->
 
