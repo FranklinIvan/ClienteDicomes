@@ -84,7 +84,7 @@ require('../views/sections/superior.php');
 
         // Listar eventos desde la BD
         events: '../admin/calendar/eventos.php',
-        eventColor: '#eb164b'
+        eventColor: 'gray'
 
         //initialView: 'dayGridMonth'
         // End of Custom
