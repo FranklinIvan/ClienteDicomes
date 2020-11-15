@@ -23,47 +23,47 @@ require('../views/sections/superior.php');
               <th>Fecha</th>
               <th>Solicitante</th>
               <th>Descripción</th>
+              <th>estado</th>
               <th>Actualizar</th>
               <th>Eliminar</th>
             </tr>
           </thead>
           <tbody class="text-gray-900">
-            <tr>
-              <td role="button" data-toggle="modal" data-target="#ModalInfo"> <i class="fas fa-search fa-fw"></i> </td>
-              <td>22/11/20</td>
-              <td>Franklin Iván</td>
-              <td>Sinceramente creo que el barca, esta temporada, no ganará nada, me jode pero siendo honesto creo que será así.</td>
-              <td>
-                <button data-toggle="modal" data-target="#btnActualizar" class="btn text-white" style="background-color: #0f9bd0;">Actualizar</button>
-              </td>
-              <td class="text-center">
-                <button data-toggle="modal" data-target="#btnEliminar" class="btn text-white" style="background-color: #b9181f;"><i class="fas fa-trash-alt fa-fw"></i></button>
-              </td>
-            </tr>
-            <tr>
-              <td role="button" data-toggle="modal" data-target="#ModalInfo"> <i class="fas fa-search fa-fw"></i> </td>
-              <td>24/11/20</td>
-              <td>Rocío Ñañez</td>
-              <td>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est illo maxime quis harum amet sed culpa vero voluptates.</td>
-              <td>
-                <button data-toggle="modal" data-target="#btnActualizar" class="btn text-white" style="background-color: #0f9bd0;">Actualizar</button>
-              </td>
-              <td class="text-center">
-                <button data-toggle="modal" data-target="#btnEliminar" class="btn text-white" style="background-color: #b9181f;"><i class="fas fa-trash-alt fa-fw"></i></button>
-              </td>
-            </tr>
-            <tr>
-              <td role="button" data-toggle="modal" data-target="#ModalInfo"> <i class="fas fa-search fa-fw"></i> </td>
-              <td>26/11/20</td>
-              <td>Ricardo Ye</td>
-              <td>Cha pero ta priti loco, qué locura con los botones esos loco chaa la vida.</td>
-              <td>
-                <button data-toggle="modal" data-target="#btnActualizar" class="btn text-white" style="background-color: #0f9bd0;">Actualizar</button>
-              </td>
-              <td class="text-center">
-                <button data-toggle="modal" data-target="#btnEliminar" class="btn text-white" style="background-color: #b9181f;"><i class="fas fa-trash-alt fa-fw"></i></button>
-              </td>
-            </tr>
+
+            <?php
+            include('../admin/conexionDB.php');
+            $sql = "SELECT servicio.start, cliente.nombre, cliente.apellido, servicio.descripcion, servicio.estado 
+              FROM cliente INNER JOIN servicio ON cliente.id_cliente = servicio.id_cliente;";
+            $stmt = $conex->prepare($sql);
+            $stmt->execute();
+            while ($resultados = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            ?>
+              <tr>
+                <td role="button" data-toggle="modal" data-target="#ModalInfo"> <i class="fas fa-search fa-fw"></i> </td>
+                <td><?php echo $resultados['start'] ?></td>
+                <td><?php echo $resultados['nombre'] . " " . $resultados['apellido'] ?></td>
+                <td><?php echo $resultados['descripcion'] ?></td>
+                <td><?php echo $resultados['estado'] ?></td>
+                <?php if ($resultados['estado'] == 'pendiente') { ?>
+                  <td>
+                    <button data-toggle="modal" data-target="#btnActualizar" disabled class="btn text-white" style="background-color: #0f9bd0;">Actualizar</button>
+                  </td>
+                <?php
+                } else {
+                ?>
+                  <td>
+                    <button data-toggle="modal" data-target="#btnActualizar" class="btn text-white" style="background-color: #0f9bd0;">Actualizar</button>
+                  </td>
+                <?php
+                }
+                ?>
+                <td class="text-center">
+                  <button data-toggle="modal" data-target="#btnEliminar" class="btn text-white" style="background-color: #b9181f;"><i class="fas fa-trash-alt fa-fw"></i></button>
+                </td>
+              </tr>
+            <?php
+            }
+            ?>
           </tbody>
         </table>
       </div>
@@ -115,6 +115,7 @@ require('../views/sections/superior.php');
 
         <div class="form-group">
           <label class="font-weight-bold">De:</label>
+          <label class="form-control font-italic" id="id">
         </div>
         <div class="form-group">
           <label class="font-weight-bold">Fecha del Evento:</label>

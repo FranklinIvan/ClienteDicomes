@@ -78,13 +78,14 @@ require('../views/sections/superior.php');
           $('#tipoEvenEvento').html(info.event.extendedProps.tipo_evento);
           $('#cantidadPerEvento').html(info.event.extendedProps.cantidad_personas);
           $('#tituloEventoDes').html(info.event.title);
-          $('#descripcionEvento').html(info.event.extendedProps.description);
+          $('#descripcionEvento').html(info.event.extendedProps.descripcion);
           $('#eventsModal').modal();
         },
 
         // Listar eventos desde la BD
         events: '../admin/calendar/eventos.php',
-        eventColor: 'gray'
+        eventColor: 'lightslategray'
+        /* Color para aceptados: mediumseagreen */
 
         //initialView: 'dayGridMonth'
         // End of Custom
@@ -114,7 +115,7 @@ require('../views/sections/superior.php');
 
           '_method': method
         }
-        console.log(nuevoEvento);
+        return (nuevoEvento);
       }
 
       /* function EnviarInfo(accion,objEvento){
@@ -144,12 +145,12 @@ require('../views/sections/superior.php');
           </button>
         </div>
 
-        <form action="../admin/calendar/procesarServicio.php" method="post">
+        <form action="../admin/calendar/eventos.php?accion=agregar" method="post">
 
           <div class="modal-body">
 
             <div class="form-group">
-              <label> <span class="font-weight-bold">De:</span>Franklin Iván</label>
+              <label> <span class="font-weight-bold">De: </span>Franklin Iván</label>
               <input type="hidden" name="nombre" id="nombre" value="Fraklooon loco">
             </div>
             <div class="form-group">
@@ -242,8 +243,16 @@ require('../views/sections/superior.php');
             <input type="hidden" name="nombre" id="nombre" value="Fraklooon loco">
           </div>
           <div class="form-group">
-            <label class="font-weight-bold">Fecha del Evento:</label>
-            <label class="form-control font-italic" id="fechaEvento">
+            <div class="row">
+              <div class="col-md-6">
+                <label class="font-weight-bold">Fecha del Evento:</label>
+                <label class="form-control font-italic" id="fechaEvento">
+              </div>
+              <div class="col-md-6">
+                <label class="font-weight-bold">Estado:</label>
+                <label class="form-control font-italic" style="background-color:lavender">Pendiente</label>
+              </div>
+            </div>
           </div>
           <div class="form-group">
             <label class="font-weight-bold">Ubicación:</label>
@@ -285,11 +294,6 @@ require('../views/sections/superior.php');
             <label class="font-weight-bold">Descripción:</label><br>
             <textarea class="form-control font-italic" readonly id="descripcionEvento" cols="57" rows=5></textarea>
           </div>
-          <!-- <div class="form-group text-center" style="color:#eb164b;">
-            <hr>
-            <i class="fas fa-exclamation fa-fw"></i>
-            <label>Este evento aún no ha sido agendado por DICOMES...</label>
-          </div> -->
 
         </div>
 
@@ -313,7 +317,7 @@ require('../views/sections/superior.php');
         </div>
         <div class="modal-body">
           <p>
-            Este es el calendario de eventos, en donde se listarán todos las coberturas de los eventos por parte de DICOMES.<br>---<br>Para solicitar una cobertura de eventos, seleciona un día libre e ingresa los datos solicitados. Una vez enviado la solicitud, tendrás que esperar la confirmación por parte de DICOMES.<br>---<br>El evento estará en color rojo si aún no ha sido aceptado.<br>El evento estará en color verde si fue aceptado.
+            Este es el calendario de eventos, en donde se listarán todos las coberturas de los eventos por parte de DICOMES.<br>---<br>Para solicitar una cobertura de eventos, seleciona un día libre e ingresa los datos solicitados. Una vez enviado la solicitud, tendrás que esperar la confirmación por parte de DICOMES.<br>---<br>El evento estará en color <span class="text-secondary font-weight-bold">gris</span> si aún no ha sido aceptado.<br>El evento estará en color <span class="text-success font-weight-bold">verde</span> si fue aceptado.
           </p>
         </div>
         <div class="modal-footer">
