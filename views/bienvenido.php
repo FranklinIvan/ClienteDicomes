@@ -250,7 +250,7 @@ require('../views/sections/superior.php');
               </div>
               <div class="col-md-6">
                 <label class="font-weight-bold">Estado:</label>
-                <label class="form-control font-italic" style="background-color:lavender">Pendiente</label>
+                <label class="form-control font-italic" readonly>Pendiente</label>
               </div>
             </div>
           </div>
@@ -277,13 +277,13 @@ require('../views/sections/superior.php');
                 <label class="form-control font-italic" id="tipoServEvento">
               </div>
               <div class="col-md-6">
-                <label class="font-weight-bold">Tipo de evento:</label>
+                <label class="font-weight-bold">Tipo de Evento:</label>
                 <label class="form-control font-italic" id="tipoEvenEvento">
               </div>
             </div>
           </div>
           <div class="form-group">
-            <label> <span class="font-weight-bold">Cantidad de personas:</span></label>
+            <label> <span class="font-weight-bold">Cantidad de Personas:</span></label>
             <label class="form-control font-italic" id="cantidadPerEvento">
           </div>
           <div class="form-group">

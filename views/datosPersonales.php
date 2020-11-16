@@ -67,11 +67,6 @@ require('../views/sections/superior.php');
                     <label class="font-weight-bold">Correo</label>
                     <input type="email" class="form-control" name="correo" value="cliente@utp.ac.pa" required>
                 </div>
-
-                <!-- <div class="form-group">
-                <label class="font-weight-bold">Foto</label><br>
-                <input type="file" name="foto">
-                </div> -->
                 <div class="modal-footer">
                     <button type="submit" name="actualizar" class="btn text-light" style="background-color: #0f9bd0;">Actualizar</button>
                     <button class="btn btn-dark" type="reset">Resetear</button>
