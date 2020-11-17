@@ -12,6 +12,7 @@ require('../views/sections/superior.php');
   <h2>Calendario de Eventos</h2>
   <br>
 
+  <!-- Message -->
   <?php if (isset($_GET['solicitudEnviada'])) { ?>
     <div class="alert alert-success alert-dismissible fade show">
       <h5>Tus datos han sido procesados correctamente</h5>
@@ -26,7 +27,6 @@ require('../views/sections/superior.php');
       </button>
     </div>
   <?php } ?>
-  <!-- End Message -->
 
   <!-- Calendar -->
 
@@ -53,14 +53,17 @@ require('../views/sections/superior.php');
           }
         },
 
+        /* eventRender: function(calev, elt, view) {
+          if (calev.end.getTime() < sometime())
+            elt.addClass("greyclass");
+        }, */
+
         dateClick: function(info) {
-          $('#fecha').val(info.dateStr);
-          $('#dayModal').modal();
-          //console.log(info);
-          /* calendar.addEvent({
-            title: "Evento x",
-            date: info.dateStr
-          }); */
+          var check = new Date();
+          if (check < info.date) {
+            $('#fecha').val(info.dateStr);
+            $('#dayModal').modal();
+          }
         },
 
         // Mostrar datos al seleccionar evento
@@ -84,55 +87,19 @@ require('../views/sections/superior.php');
 
         // Listar eventos desde la BD
         events: '../admin/calendar/eventos.php',
-        eventColor: 'lightslategray'
+        eventColor: 'mediumseagreen'
         /* Color para aceptados: mediumseagreen */
 
         //initialView: 'dayGridMonth'
-        // End of Custom
       });
       calendar.setOption('locale', 'es');
       calendar.render();
-
-      /* $('#btnEnviar').click(function() {
-        //ObjEvento=
-        recolectarDatosGUI("POST");
-        //EnviarInfo('',ObjEvento);
-      }); */
-
-      function recolectarDatosGUI(method) {
-
-        nuevoEvento = {
-          solicitante: $('#nombre').val(),
-          fecha: $('#fecha').val(),
-          ubicacion: $('#ubicacion').val(),
-          hora_inicio: $('#horaInicio').val(),
-          hora_final: $('#horaFinal').val(),
-          tipo_servicio: $('#tipoServicio').val(),
-          tipo_evento: $('#tipoEvento').val(),
-          cantidad_personas: $('#cantidadPersonas').val(),
-          titulo: $('#titulo').val(),
-          descripcion: $('#descripcion').val(),
-
-          '_method': method
-        }
-        return (nuevoEvento);
-      }
-
-      /* function EnviarInfo(accion,objEvento){
-        $.ajax({
-          type:"POST",
-          url:"../admin/procesarServicio.php"+accion,
-          data:objEvento,
-          success:function(msg){console.log(msg);},
-          error:function(){alert("Hay un error");}
-        });
-      } */
 
     });
   </script>
 
   <!-- Calendar -->
-  <div id='calendar' style="font-family:Arial, Helvetica, sans-serif"></div>
+  <div id='calendar' style="font-family:Arial, Helvetica, sans-serif;"></div>
 
   <!-- Day Modal -->
   <div class="modal fade" id="dayModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -178,22 +145,22 @@ require('../views/sections/superior.php');
                 <div class="col-md-6">
                   <label class="font-weight-bold">Tipo de Servicio:</label>
                   <div class="input-group mb-3">
-                    <select name="tipoServicio" id="tipoServicio" class="custom-select">
-                      <option value="graduacion" id="graduacion">Graduación</option>
-                      <option value="congreso" id="congreso">Congreso</option>
-                      <option value="seminario" id="seminario">Seminario</option>
-                      <option value="presentacion" id="presentacion">Presentación</option>
-                      <option value="evento" id="evento">Evento</option>
-                      <option value="otro" id="evento">Otro</option>
+                    <select name="tipoServicio" class="custom-select">
+                      <option value="Graduación">Graduación</option>
+                      <option value="Congreso">Congreso</option>
+                      <option value="seminario">Seminario</option>
+                      <option value="Presentación">Presentación</option>
+                      <option value="Evento">Evento</option>
+                      <option value="Otro">Otro</option>
                     </select>
                   </div>
                 </div>
                 <div class="col-md-6">
                   <label class="font-weight-bold">Tipo de evento:</label>
                   <div class="input-group mb-3">
-                    <select name="tipoEvento" id="tipoEvento" class="custom-select">
-                      <option value="publico" id="publico">Público</option>
-                      <option value="privado" id="privado">Privado</option>
+                    <select name="tipoEvento" class="custom-select">
+                      <option value="Público">Público</option>
+                      <option value="Privado">Privado</option>
                     </select>
                   </div>
                 </div>
@@ -327,12 +294,9 @@ require('../views/sections/superior.php');
     </div>
   </div>
 
-  <!-- End Calendar -->
-
 </div>
 
 <!-- End of Main Content -->
-
 
 <?php
 require('../views/sections/inferior.php');

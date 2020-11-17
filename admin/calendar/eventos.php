@@ -6,7 +6,7 @@
 
     switch ($accion) {
         case 'agregar':
-            // Intrucción para agregar servicio
+            // Instrucción para agregar servicio
             try {
                 $sql = "INSERT INTO servicio (start,
                                             ubicacion,
@@ -55,12 +55,25 @@
             } catch (PDOException $e) {
                 echo "Error al ingresar datos".$e;
             }
-
-
             break;
+
         case 'eliminar':
             // Intrucción para eliminar servicio
             echo "eliminar";
+            try{
+                $sql = "DELETE FROM servicio WHERE id =:id";
+                $stmt = $conex->prepare($sql);
+                $stmt->bindParam(':id',$_POST['idEliminar']);
+                if($stmt->execute() == true){
+                    header("location: ../../views/misSolicitudes.php?solicitudEliminada");
+                    exit;
+                }else{
+                    header("location: ../../views/misSolicitudes.php?error");
+                    exit;
+                }
+            }catch(PDOException $e){
+                echo "Error al eliminar datos".$e;
+            }
             break;
         
         default:

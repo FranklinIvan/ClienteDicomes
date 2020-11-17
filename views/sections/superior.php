@@ -64,9 +64,9 @@
 
             <!-- Nav Item - Tables -->
             <li class="nav-item">
-                <a class="nav-link" href="../views/estadoSolicitud.php">
+                <a class="nav-link" href="../views/misSolicitudes.php">
                     <i class="fas fa-fw fa-envelope"></i>
-                    <span>Estado de Solicitudes</span></a>
+                    <span>Mis Solicitudes</span></a>
             </li>
 
             <li class="nav-item">

@@ -1,18 +1,34 @@
 <?php
 require('../views/sections/superior.php');
 ?>
+<!-- Assets JS -->
+<script src="../js/personalJS/funciones.js"></script>
 
 <!-- Main Content -->
 <div class="container text-gray-900">
 
-  <h2>Estado de Solicitudes</h2><br>
+  <h2>Mis Solicitudes</h2><br>
 
-  <!-- Table of Users DB -->
+  <!-- Message -->
+  <?php if (isset($_GET['solicitudEliminada'])) { ?>
+    <div class="alert alert-success alert-dismissible fade show">
+      <h6>La solicitud de cobertura ha sido eliminada con éxito</h6>
+      <button type="button" class="close" data-dismiss="alert"><span>&times;</span>
+      </button>
+    </div>
+  <?php } else if (isset($_GET['error'])) { ?>
+    <div class="alert alert-danger alert-dismissible fade show">
+      <span>¡Ups, ha ocurrido un error!</span>
+      <button type="button" class="close" data-dismiss="alert"><span>&times;</span>
+      </button>
+    </div>
+  <?php } ?>
+
+  <!-- Tabla de solicitudes -->
   <div class="card shadow mb-4">
     <div class="card-header py-3">
-      <h6 class="text-gray-900 d-inline">Lista del estado de las solicitudes enviadas por ti</h6>
+      <h6 class="text-gray-900 d-inline">Lista de todas las solicitudes enviadas por ti</h6>
       <span type="button" data-toggle="modal" data-target="#QEstado" class="font-weight-bold float-right">?</span>
-      <!-- <span class="font-weight-bold">?</span> -->
     </div>
     <div class="card-body">
       <div class="table-responsive">
@@ -62,6 +78,8 @@ require('../views/sections/superior.php');
                 $resultados['title'] . "/" .
                 $resultados['descripcion'] . "/" .
                 $resultados['estado'];
+
+              $eliminar = $resultados['id'];
             ?>
               <tr>
                 <td onclick="mostrarInfo('<?php echo $datos ?>')" role="button" data-toggle="modal" data-target="#ModalInfo"> <i class="fas fa-search fa-fw"></i> </td>
@@ -83,7 +101,7 @@ require('../views/sections/superior.php');
                 }
                 ?>
                 <td class="text-center">
-                  <button data-toggle="modal" data-target="#btnEliminar" class="btn text-white" style="background-color: #b9181f;"><i class="fas fa-trash-alt fa-fw"></i></button>
+                  <button onclick="eliminarInfo('<?php echo $eliminar ?>')" data-toggle="modal" data-target="#btnEliminar" class="btn text-white" style="background-color: #b9181f;"><i class="fas fa-trash-alt fa-fw"></i></button>
                 </td>
               </tr>
             <?php
@@ -94,43 +112,10 @@ require('../views/sections/superior.php');
       </div>
     </div>
   </div>
-
-  <!-- End Table of Users DB -->
+  <!--Fin tabla de solicitudes -->
 
 </div>
-<script>
-  function mostrarInfo(datos) {
-    d = datos.split('/');
-
-    // Datos para mostrar info
-    $('#solicitanteInfo').val(d[0] + " " + d[1]);
-    $('#fechaInfo').val(d[2]);
-    $('#ubicacionInfo').val(d[3]);
-    $('#horaIniInfo').val(d[4]);
-    $('#horaFinInfo').val(d[5]);
-    $('#tipoServInfo').val(d[6]);
-    $('#tipoEvenInfo').val(d[7]);
-    $('#cantidadPerInfo').val(d[8]);
-    $('#tituloInfo').val(d[9]);
-    $('#descripcionInfo').val(d[10]);
-    $('#estadoInfo').val(d[11]);
-  }
-
-  function actualizarInfo(datos) {
-    //alert(datos);
-    d = datos.split('/');
-    // Datos para actualizar
-    $('#fechaU').val(d[2]);
-    $('#ubicacionU').val(d[3]);
-    $('#horaIniU').val(d[4]);
-    $('#horaFinU').val(d[5]);
-    $('#descripcionU').val(d[10]);
-  }
-</script>
 <!-- End of Main Content -->
-
-
-<!-- Modals -->
 
 <!-- QEstado Modal -->
 <div class="modal fade text-gray-900" id="QEstado" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -166,6 +151,10 @@ require('../views/sections/superior.php');
       </div>
       <div class="modal-body">
 
+        <div class="form-group">
+          <label class="font-weight-bold">Título Evento:</label>
+          <input class="form-control font-italic bg-white" id="tituloInfo" readonly>
+        </div>
         <div class="form-group">
           <div class="row">
             <div class="col-md-6">
@@ -207,12 +196,12 @@ require('../views/sections/superior.php');
           </div>
         </div>
         <div class="form-group">
-          <label class="font-weight-bold">Cantidad de Personas:</label>
-          <input class="form-control font-italic bg-white" id="cantidadPerInfo" readonly>
-        </div>
-        <div class="form-group">
-          <label class="font-weight-bold">Título Evento:</label>
-          <input class="form-control font-italic bg-white" id="tituloInfo" readonly>
+          <div class="row">
+            <div class="col-md-6">
+              <label class="font-weight-bold">Cantidad de Personas:</label>
+              <input class="form-control font-italic bg-white" id="cantidadPerInfo" readonly>
+            </div>
+          </div>
         </div>
 
       </div>
@@ -223,7 +212,7 @@ require('../views/sections/superior.php');
   </div>
 </div>
 
-<!-- Actualizar Modal -->
+<!-- Update Modal -->
 <div class="modal text-gray-900" tabindex="-1" id="btnActualizar" role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -263,7 +252,7 @@ require('../views/sections/superior.php');
           </div>
         </div>
         <div class="modal-footer">
-          <button class="btn text-white" name="btnEnviar" id="btnEnviar" style="background-color: #0f9bd0;">Solicitud de cambio</button>
+          <button class="btn text-white" name="btnSolicitud" id="btnSolicitud" style="background-color: #0f9bd0;">Solicitud de cambio</button>
           <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cerrar</button>
         </div>
 
@@ -273,7 +262,7 @@ require('../views/sections/superior.php');
   </div>
 </div>
 
-<!-- Eliminar Modal -->
+<!-- Delete Modal -->
 <div class="modal text-gray-900" tabindex="-1" id="btnEliminar" role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -287,7 +276,11 @@ require('../views/sections/superior.php');
         <p>¿Quieres eliminar esta solicitud de cobertura?</p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn text-white" style="background-color: #b9181f">Eliminar</button>
+        <form action="../admin/calendar/eventos.php?accion=eliminar" method="POST">
+          <button type="submit" class="btn text-white" style="background-color: #b9181f">Eliminar
+          </button>
+          <input type="hidden" id="idEliminar" name="idEliminar">
+        </form>
         <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancelar</button>
       </div>
     </div>
