@@ -18,6 +18,7 @@
                                             title, 
                                             descripcion,
                                             estado,
+                                            eventColor,
                                             id_cliente)
                                     VALUES (:start,
                                             :ubicacion,
@@ -29,6 +30,7 @@
                                             :title, 
                                             :descripcion,
                                             :estado,
+                                            :eventColor,
                                             :id_cliente)";
                 $stmt = $conex->prepare($sql);
                 $stmt->bindParam(':start',$_POST['fecha']);
@@ -42,6 +44,8 @@
                 $stmt->bindParam(':descripcion',$_POST['descripcion']);
                 $estado = 'pendiente';
                 $stmt->bindParam(':estado',$estado);
+                $evetColor = 'lightslategray';
+                $stmt->bindParam(':eventColor',$evetColor);
                 $cliente = 1;
                 $stmt->bindParam(':id_cliente',$cliente);
     

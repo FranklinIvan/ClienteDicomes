@@ -39,6 +39,8 @@ require('../views/sections/superior.php');
       var calendarEl = document.getElementById('calendar');
       var calendar = new FullCalendar.Calendar(calendarEl, {
         // Custom
+        editable: true,
+        selectable: true,
         headerToolbar: {
           left: 'prev,next today',
           center: 'title',
@@ -52,11 +54,6 @@ require('../views/sections/superior.php');
             }
           }
         },
-
-        /* eventRender: function(calev, elt, view) {
-          if (calev.end.getTime() < sometime())
-            elt.addClass("greyclass");
-        }, */
 
         dateClick: function(info) {
           var check = new Date();
@@ -86,9 +83,9 @@ require('../views/sections/superior.php');
         },
 
         // Listar eventos desde la BD
-        events: '../admin/calendar/eventos.php',
-        eventColor: 'mediumseagreen'
-        /* Color para aceptados: mediumseagreen */
+        events: '../admin/calendar/eventos.php'
+        //Color para en espera: lightslategray
+        //Color para aceptados: mediumseagreen
 
         //initialView: 'dayGridMonth'
       });

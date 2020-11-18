@@ -1,54 +1,73 @@
 <?php
 require('../views/sections/superior.php');
+require('../admin/conexionDB.php');
 ?>
 <!-- Assets JS -->
 <script src="../js/personalJS/funciones.js"></script>
 
 <!-- Main Content -->
 <div class="container text-gray-900">
+  <?php
+  $sql = "SELECT servicio.id
+          FROM cliente INNER JOIN servicio ON cliente.id_cliente = servicio.id_cliente
+          WHERE cliente.id_cliente = 1;";
+  $stmt = $conex->prepare($sql);
+  $stmt->execute();
+  $rows = $stmt->rowCount();
+  if ($rows <= 0) { ?>
 
-  <h2>Mis Solicitudes</h2><br>
-
-  <!-- Message -->
-  <?php if (isset($_GET['solicitudEliminada'])) { ?>
-    <div class="alert alert-success alert-dismissible fade show">
-      <h6>La solicitud de cobertura ha sido eliminada con éxito</h6>
-      <button type="button" class="close" data-dismiss="alert"><span>&times;</span>
-      </button>
+    <div class="">
+      <h2>Sin Solicitudes</h2><br>
+      <h4 class="">Aún no tienes solicitudes de coberturas enviadas...</h4>
+      <p class="mb-5">Para enviar solicitudes de coberturas de tus eventos, <span class="font-weight-bold">¡ve al calendario y elige un día libre!</span></p>
+      <img class="img-fluid mx-auto d-block" src="../images/calendario.png" alt="Imagen" style="width: 160px; height: 160px;">
     </div>
-  <?php } else if (isset($_GET['error'])) { ?>
-    <div class="alert alert-danger alert-dismissible fade show">
-      <span>¡Ups, ha ocurrido un error!</span>
-      <button type="button" class="close" data-dismiss="alert"><span>&times;</span>
-      </button>
-    </div>
-  <?php } ?>
 
-  <!-- Tabla de solicitudes -->
-  <div class="card shadow mb-4">
-    <div class="card-header py-3">
-      <h6 class="text-gray-900 d-inline">Lista de todas las solicitudes enviadas por ti</h6>
-      <span type="button" data-toggle="modal" data-target="#QEstado" class="font-weight-bold float-right">?</span>
-    </div>
-    <div class="card-body">
-      <div class="table-responsive">
-        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-          <thead class="text-gray-900" style="background-color: #e6e6e7;">
-            <tr>
-              <th>Ver</th>
-              <th>Fecha</th>
-              <th>Solicitante</th>
-              <th>Descripción</th>
-              <th>estado</th>
-              <th>Actualizar</th>
-              <th>Eliminar</th>
-            </tr>
-          </thead>
-          <tbody class="text-gray-900">
+  <?php
+  } else {
+  ?>
 
-            <?php
-            include('../admin/conexionDB.php');
-            $sql = "SELECT servicio.id,
+    <h2>Mis Solicitudes</h2><br>
+
+    <!-- Message -->
+    <?php if (isset($_GET['solicitudEliminada'])) { ?>
+      <div class="alert alert-success alert-dismissible fade show">
+        <h6>La solicitud de cobertura ha sido eliminada con éxito</h6>
+        <button type="button" class="close" data-dismiss="alert"><span>&times;</span>
+        </button>
+      </div>
+    <?php } else if (isset($_GET['error'])) { ?>
+      <div class="alert alert-danger alert-dismissible fade show">
+        <span>¡Ups, ha ocurrido un error!</span>
+        <button type="button" class="close" data-dismiss="alert"><span>&times;</span>
+        </button>
+      </div>
+    <?php } ?>
+
+    <!-- Tabla de solicitudes -->
+    <div class="card shadow mb-4">
+      <div class="card-header py-3">
+        <h6 class="text-gray-900 d-inline">Lista de todas las solicitudes enviadas por ti</h6>
+        <span type="button" data-toggle="modal" data-target="#QEstado" class="font-weight-bold float-right">?</span>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <thead class="text-gray-900" style="background-color: #e6e6e7;">
+              <tr>
+                <th>Ver</th>
+                <th>Fecha</th>
+                <th>Solicitante</th>
+                <th>Descripción</th>
+                <th>estado</th>
+                <th>Actualizar</th>
+                <th>Eliminar</th>
+              </tr>
+            </thead>
+            <tbody class="text-gray-900">
+
+              <?php
+              $sql = "SELECT servicio.id,
                             servicio.start,
                             servicio.ubicacion,
                             servicio.hora_inicio,
@@ -61,58 +80,62 @@ require('../views/sections/superior.php');
                             servicio.estado ,
                             cliente.nombre,
                             cliente.apellido
-                            FROM cliente INNER JOIN servicio ON cliente.id_cliente = servicio.id_cliente;";
-            $stmt = $conex->prepare($sql);
-            $stmt->execute();
-            while ($resultados = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                            FROM cliente INNER JOIN servicio ON cliente.id_cliente = servicio.id_cliente
+                            WHERE cliente.id_cliente = 1;";
+              $stmt = $conex->prepare($sql);
+              $stmt->execute();
+              while ($resultados = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
-              $datos =  $resultados['nombre'] . "/" .
-                $resultados['apellido'] . "/" .
-                $resultados['start'] . "/" .
-                $resultados['ubicacion'] . "/" .
-                $resultados['hora_inicio'] . "/" .
-                $resultados['hora_final'] . "/" .
-                $resultados['tipo_servicio'] . "/" .
-                $resultados['tipo_evento'] . "/" .
-                $resultados['cantidad_personas'] . "/" .
-                $resultados['title'] . "/" .
-                $resultados['descripcion'] . "/" .
-                $resultados['estado'];
+                $datos =  $resultados['nombre'] . "/" .
+                  $resultados['apellido'] . "/" .
+                  $resultados['start'] . "/" .
+                  $resultados['ubicacion'] . "/" .
+                  $resultados['hora_inicio'] . "/" .
+                  $resultados['hora_final'] . "/" .
+                  $resultados['tipo_servicio'] . "/" .
+                  $resultados['tipo_evento'] . "/" .
+                  $resultados['cantidad_personas'] . "/" .
+                  $resultados['title'] . "/" .
+                  $resultados['descripcion'] . "/" .
+                  $resultados['estado'];
 
-              $eliminar = $resultados['id'];
-            ?>
-              <tr>
-                <td onclick="mostrarInfo('<?php echo $datos ?>')" role="button" data-toggle="modal" data-target="#ModalInfo"> <i class="fas fa-search fa-fw"></i> </td>
-                <td><?php echo $resultados['start'] ?></td>
-                <td><?php echo $resultados['nombre'] . " " . $resultados['apellido'] ?></td>
-                <td><?php echo $resultados['descripcion'] ?></td>
-                <td><?php echo $resultados['estado'] ?></td>
-                <?php if ($resultados['estado'] != 'pendiente') { ?>
-                  <td>
-                    <button data-toggle="modal" data-target="#btnActualizar" disabled class="btn text-white" style="background-color: #0f9bd0;">Actualizar</button>
+                $eliminar = $resultados['id'];
+              ?>
+                <tr>
+                  <td onclick="mostrarInfo('<?php echo $datos ?>')" role="button" data-toggle="modal" data-target="#ModalInfo"> <i class="fas fa-search fa-fw"></i> </td>
+                  <td><?php echo $resultados['start'] ?></td>
+                  <td><?php echo $resultados['nombre'] . " " . $resultados['apellido'] ?></td>
+                  <td><?php echo $resultados['descripcion'] ?></td>
+                  <td><?php echo $resultados['estado'] ?></td>
+                  <?php if ($resultados['estado'] != 'pendiente') { ?>
+                    <td>
+                      <button data-toggle="modal" data-target="#btnActualizar" disabled class="btn text-white" style="background-color: #0f9bd0;">Actualizar</button>
+                    </td>
+                  <?php
+                  } else {
+                  ?>
+                    <td>
+                      <button onclick="actualizarInfo('<?php echo $datos ?>')" data-toggle="modal" data-target="#btnActualizar" class="btn text-white" style="background-color: #0f9bd0;">Actualizar</button>
+                    </td>
+                  <?php
+                  }
+                  ?>
+                  <td class="text-center">
+                    <button onclick="eliminarInfo('<?php echo $eliminar ?>')" data-toggle="modal" data-target="#btnEliminar" class="btn text-white" style="background-color: #b9181f;"><i class="fas fa-trash-alt fa-fw"></i></button>
                   </td>
-                <?php
-                } else {
-                ?>
-                  <td>
-                    <button onclick="actualizarInfo('<?php echo $datos ?>')" data-toggle="modal" data-target="#btnActualizar" class="btn text-white" style="background-color: #0f9bd0;">Actualizar</button>
-                  </td>
-                <?php
-                }
-                ?>
-                <td class="text-center">
-                  <button onclick="eliminarInfo('<?php echo $eliminar ?>')" data-toggle="modal" data-target="#btnEliminar" class="btn text-white" style="background-color: #b9181f;"><i class="fas fa-trash-alt fa-fw"></i></button>
-                </td>
-              </tr>
-            <?php
-            }
-            ?>
-          </tbody>
-        </table>
+                </tr>
+              <?php
+              }
+              ?>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
-  </div>
-  <!--Fin tabla de solicitudes -->
+    <!--Fin tabla de solicitudes -->
+  <?php
+  }
+  ?>
 
 </div>
 <!-- End of Main Content -->
@@ -122,14 +145,14 @@ require('../views/sections/superior.php');
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">¿Estado de Solicitudes?</h5>
+        <h5 class="modal-title" id="exampleModalLabel">¿Mis Solicitudes?</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
         <p>
-          Esta lista muestra el estado actual de las solicitudes de cobertura enviadas por ti.<br>---<br>Las solicitudes con estado "pendiente" puede ser canceladas.<br>Las solicitudes con estado "aceptado" pueden ser actualizadas o canceladas.<br>---<br>Las actualizaciones permiten modificar campos para la cobertura del evento. Una vez actualizada la información, el departamento de Dirección de Comunicación Estratégica (DICOMES) podrá aceptar o rechazar la solicitud de actualización.
+          Esta lista muestra las solicitudes de cobertura enviadas por ti.<br>---<br>Las solicitudes con estado "pendiente" puede ser canceladas.<br>Las solicitudes con estado "aceptado" pueden ser actualizadas o canceladas.<br>---<br>Las actualizaciones permiten modificar campos para la cobertura del evento. Una vez actualizada la información, el departamento de Dirección de Comunicación Estratégica (DICOMES) podrá aceptar o rechazar la solicitud de actualización.
         </p>
       </div>
       <div class="modal-footer">
