@@ -19,7 +19,7 @@ require('../admin/conexionDB.php');
     <div class="">
       <h2>Sin Solicitudes</h2><br>
       <h4 class="">Aún no tienes solicitudes de coberturas enviadas...</h4>
-      <p class="mb-5">Para enviar solicitudes de coberturas de tus eventos, <span class="font-weight-bold">¡ve al calendario y elige un día libre!</span></p>
+      <p class="mb-5">Para enviar solicitudes de coberturas de tus eventos, <span class="font-weight-bold">¡ve a la agenda y elige un día libre!</span></p>
       <img class="img-fluid mx-auto d-block" src="../images/calendario.png" alt="Imagen" style="width: 160px; height: 160px;">
     </div>
 

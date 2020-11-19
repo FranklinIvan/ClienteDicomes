@@ -39,8 +39,10 @@ require('../views/sections/superior.php');
       var calendarEl = document.getElementById('calendar');
       var calendar = new FullCalendar.Calendar(calendarEl, {
         // Custom
-        editable: true,
         selectable: true,
+        dayMaxEvents: true,
+        businessHours: true,
+        navLinks: true,
         headerToolbar: {
           left: 'prev,next today',
           center: 'title',
@@ -83,11 +85,11 @@ require('../views/sections/superior.php');
         },
 
         // Listar eventos desde la BD
-        events: '../admin/calendar/eventos.php'
+        events: '../admin/calendar/eventos.php',
         //Color para en espera: lightslategray
         //Color para aceptados: mediumseagreen
 
-        //initialView: 'dayGridMonth'
+        initialView: 'dayGridMonth'
       });
       calendar.setOption('locale', 'es');
       calendar.render();
