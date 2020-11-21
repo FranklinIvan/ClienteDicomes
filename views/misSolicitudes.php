@@ -1,26 +1,23 @@
 <?php
 require('../views/sections/superior.php');
-require('../admin/conexionDB.php');
+//require('../admin/conexionDB.php');
+$sql = $conex->query("SELECT * FROM misSolicitudes WHERE id_cliente = 1");
 ?>
 <!-- Assets JS -->
 <script src="../js/personalJS/funciones.js"></script>
 
 <!-- Main Content -->
 <div class="container text-gray-900">
+
   <?php
-  $sql = "SELECT servicio.id
-          FROM cliente INNER JOIN servicio ON cliente.id_cliente = servicio.id_cliente
-          WHERE cliente.id_cliente = 1;";
-  $stmt = $conex->prepare($sql);
-  $stmt->execute();
-  $rows = $stmt->rowCount();
-  if ($rows <= 0) { ?>
+  $cantidad = $sql->rowCount();
+  if($cantidad <= 0) {
+  ?>
 
     <div class="">
       <h2>Sin Solicitudes</h2><br>
-      <h4 class="">Aún no tienes solicitudes de coberturas enviadas...</h4>
-      <p class="mb-5">Para enviar solicitudes de coberturas de tus eventos, <span class="font-weight-bold">¡ve a la agenda y elige un día libre!</span></p>
-      <img class="img-fluid mx-auto d-block" src="../images/calendario.png" alt="Imagen" style="width: 160px; height: 160px;">
+      <h6 class="mb-5">Para enviar solicitudes de coberturas de tus eventos, <span class="font-weight-bold">¡ve a la agenda y elige un día libre!</span></h6>
+      <img class="img-fluid mx-auto d-block" src="../images/empty.png" alt="Imagen" style="width: 190px; height: 190px;">
     </div>
 
   <?php
@@ -67,24 +64,7 @@ require('../admin/conexionDB.php');
             <tbody class="text-gray-900">
 
               <?php
-              $sql = "SELECT servicio.id,
-                            servicio.start,
-                            servicio.ubicacion,
-                            servicio.hora_inicio,
-                            servicio.hora_final,
-                            servicio.tipo_servicio,
-                            servicio.tipo_evento,
-                            servicio.cantidad_personas,
-                            servicio.title,
-                            servicio.descripcion,
-                            servicio.estado ,
-                            cliente.nombre,
-                            cliente.apellido
-                            FROM cliente INNER JOIN servicio ON cliente.id_cliente = servicio.id_cliente
-                            WHERE cliente.id_cliente = 1;";
-              $stmt = $conex->prepare($sql);
-              $stmt->execute();
-              while ($resultados = $stmt->fetch(PDO::FETCH_ASSOC)) {
+              foreach($sql as $resultados){
 
                 $datos =  $resultados['nombre'] . "/" .
                   $resultados['apellido'] . "/" .

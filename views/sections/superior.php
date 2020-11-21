@@ -1,4 +1,7 @@
-
+<?php
+require('../admin/conexionDB.php');
+$sql = $conex->query("SELECT * FROM v_notificacion");
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -19,9 +22,6 @@
 
     <!-- Custom styles for this template-->
     <link href="../css/sb-admin-2.min.css" rel="stylesheet">
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-
 
 </head>
 
@@ -165,17 +165,23 @@
                                 Mensajes
                             </h6> -->
                             <div class="dropdown-item text-center text-gray-500">Mensajes</div>
+                            <?php
+                            foreach ($sql as $noti){
+                            ?>
                             <a data-toggle="modal" data-target="#messageModal" class="dropdown-item d-flex align-items-center" href="#">
                                 <div class="dropdown-list-image mr-3">
                                     <img class="rounded-circle" src="../images/imagesDB/5.png" alt="">
                                     <div class="status-indicator bg-success"></div>
                                 </div>
                                 <div class="font-weight-bold">
-                                    <div class="text-truncate">Hi there! I am wondering if you can help me with a problem I've been having.</div>
-                                    <div class="small text-gray-500">Conor Mcgregor · 58m</div>
+                                    <div class="text-truncate"><?php echo $noti['mensaje'] ?></div>
+                                    <div class="small text-gray-500"><?php echo $noti['nombre'].$noti['apellido'] ?></div>
                                 </div>
                             </a>
-                            <a class="dropdown-item d-flex align-items-center" href="#">
+                            <?php
+                            }
+                            ?>
+                            <!-- <a class="dropdown-item d-flex align-items-center" href="#">
                                 <div class="dropdown-list-image mr-3">
                                     <img class="rounded-circle" src="../images/imagesDB/3.png" alt="">
                                     <div class="status-indicator"></div>
@@ -204,7 +210,7 @@
                                     <div class="text-truncate">Am I a good boy? The reason I ask is because someone told me that people say this to all dogs, even if they aren't good...</div>
                                     <div class="small text-gray-500">Chicken the Dog · 2w</div>
                                 </div>
-                            </a>
+                            </a> -->
                             <a class="dropdown-item text-center small text-gray-500" href="#">Leer más mensajes</a>
                         </div>
                     </li>

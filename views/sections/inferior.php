@@ -50,7 +50,7 @@
                             <div class="status-indicator bg-success"></div>
                         </div>
                         <div class="font-weight-bold">
-                            <div class="text-truncate">En línea.</div>
+                            <div class="text-truncate">Activo.</div>
                             <div class="small text-gray-500">Enviado hace · 58m</div>
                         </div>
                     </a>
